@@ -28,7 +28,8 @@
   tr:last-child td{border-bottom:none}
   .model-name{font-weight:600;white-space:nowrap}
   .model-spec{display:block;font-size:11px;color:var(--ink2);font-weight:400}
-  input[type=number]{width:92px;padding:5px 8px;border:1px solid var(--line);border-radius:5px;font-family:var(--mono);font-size:13px;text-align:right;background:#fbfcfe}
+  .est{color:var(--warn);font-weight:700}
+  input[type=number]{width:88px;padding:5px 8px;border:1px solid var(--line);border-radius:5px;font-family:var(--mono);font-size:13px;text-align:right;background:#fbfcfe}
   input[type=number]:focus{outline:2px solid var(--accent);outline-offset:-1px;background:#fff}
   .num{font-family:var(--mono);text-align:right;white-space:nowrap}
   .big{font-weight:700;font-size:14px}
@@ -45,6 +46,15 @@
   .src b{color:var(--ink)}
   .scroll{overflow-x:auto}
   .divider-note{font-size:12px;color:var(--ink2);background:#eef1f5;border:1px dashed var(--line);padding:8px 12px;margin-top:10px;border-radius:6px}
+  .tier{margin:18px 0 6px;font-size:13px;font-weight:700}
+  .tier small{color:var(--ink2);font-weight:400;margin-left:8px}
+  .catalog{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:8px}
+  .gpu-card{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:9px 12px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .gpu-card .n{font-size:12.5px;font-weight:600}
+  .gpu-card .v{display:block;font-size:11px;color:var(--ink2);font-weight:400}
+  .gpu-card .p{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--accent);white-space:nowrap}
+  .gpu-card .p span{display:block;font-size:10px;color:var(--ink2);font-weight:400;text-align:right}
+  .gpu-card.na .p{color:var(--ink2);font-weight:400}
   @media(max-width:760px){ .wrap{padding:20px 12px 60px} }
 </style>
 </head>
@@ -53,18 +63,18 @@
 
   <header class="top">
     <h1>GPU 服务器租赁定价台</h1>
-    <div class="asof">行情锚点：2026-08-28 当周 · SMM / 渠道现货 / 云商 On-Demand</div>
+    <div class="asof">行情锚点：2026-09-02 · SMM / 渠道现货 / GPUPerHour（31 家云商）</div>
   </header>
 
   <div class="formula-note">
     修改下方任意 <b>采购价</b>、<b>现货月租行情</b> 或 <b>云商时租</b>，全部结果实时重算。
-    短租：<code>月租 = 现货行情 × 短租系数</code>；长协闭口：<code>月租 = 采购价 × 租期系数 + 托管常数</code>，闭口合同租期内价格锁定，期满按初始投资额 10% 残值回购。
+    短租：<code>月租 = 现货行情 × 短租系数</code>；长协闭口：<code>月租 = 采购价 × 租期系数 + 托管常数</code>，闭口合同租期内价格锁定，期满按初始投资额 10% 残值回购。标 <span class="est">*</span> 为估算值（缺直接行情锚点，按相邻机型插值），签约前请以实时询价校准。
   </div>
 
   <!-- ============ 01 行情录入 ============ -->
   <section>
     <h2><span class="no">01</span>行情录入 · 8 卡整机</h2>
-    <div class="sub">采购价为含税现货行情；现货月租取国内渠道包月均价；云商时租为海外 On-Demand 最低可购价，作为国内租金上限参照。</div>
+    <div class="sub">采购价为含税现货行情；现货月租取国内渠道包月均价；云商时租取 GPUPerHour 收录 31 家云商当前最低可购价（On-Demand），作为国内租金上限参照。</div>
     <div class="scroll"><table id="tbl-market">
       <thead><tr>
         <th>机型</th><th>采购价<br>万元/台</th><th>现货月租行情<br>万元/台·月</th><th>云商时租<br>$/GPU/hr</th><th>功耗<br>kW</th><th>托管常数<br>万元/月</th>
@@ -72,8 +82,8 @@
       <tbody></tbody>
     </table></div>
     <div class="src">
-      <b>采购价锚点：</b>H100 约 165–265 万（单卡约 18 万）；H200 HGX 整机 480–500 万 / PCIe 整机 410–435 万；B300 超威现货 640–700 万、戴尔/超微 3T 期货 893–1225 万、高配现货 1300–1450 万；RTX PRO 6000 单卡 7.1–8.8 万（整机约 75–90 万）；RTX 5090 整机约 45 万。<br>
-      <b>现货月租锚点：</b>H100 长三角包月均价 8.0 万（区间上沿 8.2 万、西南现货 10.2 万）；H200 约 9 万（部分报价破 10 万）；B300 约 15 万；RTX PRO 6000 约 8 元/卡·时折月 4.6 万；RTX 5090 消费云包月约 1,482 元/卡（整机约 1.2 万）。
+      <b>采购价锚点：</b>RTX 4090 整机约 18 万；RTX 5090 约 45 万；RTX PRO 6000 单卡 7.1–8.8 万（整机约 75–90 万）；L40S 整机约 85 万；A100 80G 实际成交 123.5 万（SMM 锚点）；H100 约 165–265 万；H200 HGX 480–500 万 / PCIe 410–435 万；B200 <span class="est">估算</span> 约 400 万；B300 超威现货 640–700 万、戴尔/超微 3T 期货 893–1225 万、高配现货 1300–1450 万。<br>
+      <b>现货月租锚点：</b>RTX 4090 约 0.65 万（华锐 6500 元/月）；RTX 5090 消费云包月约 1,482 元/卡（整机约 1.2 万）；RTX PRO 6000 约 8 元/卡·时折月 4.6 万；L40S 约 2.1 万；A100 80G 约 3.3 万；H100 长三角包月均价 8.0 万（上沿 8.2 万、西南 10.2 万）；H200 约 9 万（部分破 10 万）；B200 <span class="est">估算</span> 约 12 万；B300 约 15 万。
     </div>
   </section>
 
@@ -113,28 +123,45 @@
     </table></div>
   </section>
 
-  <!-- ============ 05 参数 ============ -->
+  <!-- ============ 05 现货行情总览 ============ -->
   <section>
-    <h2><span class="no">05</span>定价参数</h2>
+    <h2><span class="no">05</span>现货行情总览 · GPUPerHour 型号库</h2>
+    <div class="sub">107 个型号 · 18,764 条报价 · 31 家云商 On-Demand 最低价（2026-09-02 采集）。用作上方"云商时租"输入的参照系。</div>
+    <div class="tier">🔥 企业级 <small>训练 / 大规模推理 · 3,413 条报价</small></div>
+    <div class="catalog" id="cat-ent"></div>
+    <div class="tier">💼 工作站级 <small>推理 / 渲染 / 可视化 · 1,919 条报价</small></div>
+    <div class="catalog" id="cat-ws"></div>
+    <div class="tier">🎮 消费级 <small>开发 / 微调 / 小规模推理 · 13,432 条报价</small></div>
+    <div class="catalog" id="cat-cs"></div>
+  </section>
+
+  <!-- ============ 06 参数 ============ -->
+  <section>
+    <h2><span class="no">06</span>定价参数</h2>
     <div class="sub">系数口径：租期系数 × 采购价 = 设备月供（覆盖金租本息 + 折旧 + 资金占用）；托管常数覆盖电费、机柜、带宽与 7×24 运维。</div>
     <div class="params" id="params"></div>
     <div class="divider-note">提示：B300 若按高配现货 1400 万计价，1 年闭口理论价（约 64 万/月）远高于现货短租行情（约 15 万/月）——说明该价位下只能签 3 年以上长协消化成本，或按低配现货（640–700 万）重算。矩阵中已对脱节机型给出预警标签。</div>
   </section>
 
   <div class="src">
-    <b>数据来源（2026-08 末）：</b>SMM 算力周评（8/28 当周，长三角/珠三角包月监测）；算力租赁行业调研纪要（2026-05）；渠道现货报价（中关村在线 / 华锐算力 / 平治信息调研）；云商时租取 GPUPerHour / Vast.ai / RunPod / OpenBayes 公开 On-Demand 报价。价格为行情参考，实际成交受批量、租期、付款方式影响，签约前请以实时询价为准。
+    <b>数据来源：</b>SMM 算力周评（8/28 当周，长三角/珠三角包月监测）；算力租赁行业调研纪要（2026-05）；渠道现货报价（中关村在线 / 华锐算力 / 平治信息调研）；云商时租与型号库取 GPUPerHour（31 家云商 On-Demand 最低价，2026-09-02 采集），补充 Vast.ai / RunPod / OpenBayes 公开报价。价格为行情参考，实际成交受批量、租期、付款方式影响，签约前请以实时询价为准。
   </div>
 
 </div>
 
 <script>
-// ================= 默认行情（2026-08 末锚点） =================
+// ================= 默认行情（2026-09-02 锚点） =================
+// est=true 表示该值为估算（缺直接行情锚点）
 const MODELS = [
-  { key:'5090',   name:'RTX 5090',      spec:'8×32GB GDDR7 · 风冷',   purchase:45,   spot:1.2,  cloud:0.90, power:4.8, host:0.42, basis:'消费云平台包月价' },
-  { key:'pro6k',  name:'RTX PRO 6000',  spec:'8×96GB GDDR7 · 服务器版', purchase:82,  spot:4.6,  cloud:1.69, power:5.6, host:0.49, basis:'OpenBayes 8元/卡·时折月' },
-  { key:'h100',   name:'H100',          spec:'8×80GB HBM3 · SXM',     purchase:200,  spot:8.0,  cloud:2.61, power:10,  host:0.70, basis:'SMM 长三角包月均价 8/28' },
-  { key:'h200',   name:'H200',          spec:'8×141GB HBM3e · SXM',   purchase:460,  spot:9.0,  cloud:3.50, power:10,  host:0.70, basis:'渠道月租 9 万，部分破 10 万' },
-  { key:'b300',   name:'B300',          spec:'8×288GB HBM3e · 液冷',  purchase:1400, spot:15.0, cloud:6.99, power:14,  host:0.98, basis:'平治信息运营价约 15 万/月' },
+  { key:'4090',  name:'RTX 4090',       spec:'8×24GB GDDR6X · 风冷',  purchase:18,   spot:0.65, cloud:0.34, power:3.6, host:0.32, basis:'华锐 4090×8 约 6,500 元/月' },
+  { key:'5090',  name:'RTX 5090',       spec:'8×32GB GDDR7 · 风冷',   purchase:45,   spot:1.2,  cloud:0.90, power:4.8, host:0.42, basis:'消费云平台包月价' },
+  { key:'pro6k', name:'RTX PRO 6000',   spec:'8×96GB GDDR7 · 服务器版', purchase:82,  spot:4.6,  cloud:0.66, power:5.6, host:0.49, basis:'OpenBayes 8元/卡·时折月' },
+  { key:'l40s',  name:'L40S',           spec:'8×48GB GDDR6 · PCIe',   purchase:85,   spot:2.1,  cloud:0.88, power:4.5, host:0.40, basis:'华锐 L40S×8 约 21,000 元/月' },
+  { key:'a100',  name:'A100 80G',       spec:'8×80GB HBM2e · SXM',    purchase:123,  spot:3.3,  cloud:1.38, power:6.5, host:0.55, basis:'SMM 采购价锚点 123.5 万' },
+  { key:'h100',  name:'H100',           spec:'8×80GB HBM3 · SXM',     purchase:200,  spot:8.0,  cloud:2.79, power:10,  host:0.70, basis:'SMM 长三角包月均价' },
+  { key:'h200',  name:'H200',           spec:'8×141GB HBM3e · SXM',   purchase:460,  spot:9.0,  cloud:3.50, power:10,  host:0.70, basis:'渠道月租 9 万，部分破 10 万' },
+  { key:'b200',  name:'B200',           spec:'8×192GB HBM3e · 液冷',  purchase:400,  spot:12.0, cloud:3.75, power:12,  host:0.85, basis:'估算：介于 H200 与 B300 之间', est:true },
+  { key:'b300',  name:'B300',           spec:'8×262GB HBM3e · 液冷',  purchase:1400, spot:15.0, cloud:7.89, power:14,  host:0.98, basis:'平治信息运营价约 15 万/月' },
 ];
 
 const PARAMS = [
@@ -147,6 +174,33 @@ const PARAMS = [
   { key:'hMul',     label:'半年系数（×行情）',        val:0.90, step:0.01 },
   { key:'resid',    label:'残值回购比例 %',          val:10,   step:1    },
 ];
+
+// ================= GPUPerHour 型号库（2026-09-02 采集，$/GPU/hr 最低价） =================
+const CATALOG = {
+  ent: [
+    ['Tesla V100 16GB','16GB',0.83,508],['H100 SXM5','80GB',2.79,419],['B200 SXM','192GB',3.75,389],
+    ['H200 SXM','141GB',3.50,318],['A100 SXM4 80GB','80GB',1.38,277],['L40S','48GB',0.88,225],
+    ['A16','64GB',0.47,165],['A40','48GB',1.79,154],['A100 PCIe 80GB','80GB',1.35,150],
+    ['A100 PCIe 40GB','40GB',1.39,127],['H100 NVL','94GB',3.11,109],['H100 PCIe','80GB',2.59,97],
+    ['B300 SXM6','262GB',7.89,78],['Tesla V100 32GB','32GB',0.95,65],['H200 NVL','141GB',3.79,58],
+    ['L40','48GB',0.86,58],['A100 SXM4 40GB','40GB',1.29,36],['L4','24GB',0.49,33],
+    ['GB300 SXM6','288GB',null,30],['Tesla T4','16GB',null,25],['Tesla P100','16GB',null,19],
+    ['A10','24GB',1.29,18],['AMD MI300X','192GB',2.99,16],['A30','24GB',null,16],
+    ['GH200 Grace Hopper','96GB',null,14],['Intel Gaudi 2','96GB',0.91,2],
+  ],
+  ws: [
+    ['RTX 6000 Ada','48GB',0.79,725],['RTX A6000','48GB',0.48,292],['RTX A4000','16GB',0.15,229],
+    ['RTX A5000','24GB',0.46,158],['RTX PRO 6000 Blackwell','96GB',0.66,151],['RTX 4000 Ada','20GB',0.28,66],
+    ['RTX A2000','12GB',null,58],['RTX 4500 Ada','24GB',null,25],['RTX 5000 Ada','32GB',null,23],
+    ['RTX PRO 5000 Blackwell','48GB',0.93,18],['RTX PRO 4500 Blackwell','32GB',0.72,12],
+    ['RTX 5880 Ada','48GB',null,8],['RTX PRO 4000 Blackwell','24GB',0.57,6],
+    ['RTX PRO 6000 MIG 48GB','48GB',1.09,4],['RTX A4500','20GB',0.25,4],['RTX 2000 Ada','16GB',0.24,4],
+  ],
+  cs: [
+    ['RTX 4090','24GB',0.34,null],['RTX 5090','32GB',0.90,null],['RTX 3090','24GB',0.20,null],
+    ['RTX 3090 Ti','24GB',null,null],['RTX 4090 D','24GB',null,null],['RTX 4080','16GB',null,null],
+  ],
+};
 
 const state = { models: JSON.parse(JSON.stringify(MODELS)), params:{} };
 PARAMS.forEach(p => state.params[p.key] = p.val);
@@ -176,9 +230,9 @@ function render(){
   // 01 行情录入
   $('#tbl-market tbody').innerHTML = state.models.map((m,i)=>`
     <tr>
-      <td class="model-name">${m.name}<span class="model-spec">${m.spec}</span></td>
+      <td class="model-name">${m.name}${m.est?'<span class="est">*</span>':''}<span class="model-spec">${m.spec}</span></td>
       <td><input type="number" step="1"    value="${m.purchase}" data-i="${i}" data-f="purchase"></td>
-      <td><input type="number" step="0.1"  value="${m.spot}"     data-i="${i}" data-f="spot"></td>
+      <td><input type="number" step="0.05" value="${m.spot}"     data-i="${i}" data-f="spot"></td>
       <td><input type="number" step="0.01" value="${m.cloud}"    data-i="${i}" data-f="cloud"></td>
       <td><input type="number" step="0.1"  value="${m.power}"    data-i="${i}" data-f="power"></td>
       <td><input type="number" step="0.01" value="${m.host}"     data-i="${i}" data-f="host"></td>
@@ -188,7 +242,7 @@ function render(){
   $('#tbl-short tbody').innerHTML = state.models.map(m=>{
     const hourly = m.spot*10000/720/8*state.params.hourMul; // 元/卡·时
     return `<tr>
-      <td class="model-name">${m.name}</td>
+      <td class="model-name">${m.name}${m.est?'<span class="est">*</span>':''}</td>
       <td class="num big">${hourly.toFixed(2)}</td>
       <td class="num big">${fmt(m.spot*10000)}</td>
       <td class="num">${fmt(m.spot*10000*state.params.qMul)}</td>
@@ -202,7 +256,7 @@ function render(){
     const y1=closed(m,'c1y'), y3=closed(m,'c3y'), y5=closed(m,'c5y');
     const [txt,cls]=vsSpot(m,y5);
     return `<tr>
-      <td class="model-name">${m.name}</td>
+      <td class="model-name">${m.name}${m.est?'<span class="est">*</span>':''}</td>
       <td class="num big">${fmt(y1*10000)}<span class="unit"><br>${fmtW(y1)}万 = ${m.purchase}×${state.params.c1y}% + ${m.host}</span></td>
       <td class="num big">${fmt(y3*10000)}<span class="unit"><br>${fmtW(y3)}万 = ${m.purchase}×${state.params.c3y}% + ${m.host}</span></td>
       <td class="num big">${fmt(y5*10000)}<span class="unit"><br>${fmtW(y5)}万 = ${m.purchase}×${state.params.c5y}% + ${m.host}</span></td>
@@ -225,7 +279,7 @@ function render(){
     </tr>`;
   }).join('');
 
-  // 05 参数
+  // 06 参数
   $('#params').innerHTML = PARAMS.map(p=>`
     <div class="param">
       <label>${p.label}</label>
@@ -233,6 +287,18 @@ function render(){
     </div>`).join('');
 
   bind();
+}
+
+// 05 型号库（静态渲染一次）
+function renderCatalog(){
+  const paint = list => list.map(([n,v,p,off])=>`
+    <div class="gpu-card ${p==null?'na':''}">
+      <div class="n">${n}<span class="v">${v}${off?` · ${off} 条报价`:''}</span></div>
+      <div class="p">${p!=null?`$${p.toFixed(2)}<span>/GPU·hr</span>`:'询价'}</div>
+    </div>`).join('');
+  $('#cat-ent').innerHTML = paint(CATALOG.ent);
+  $('#cat-ws').innerHTML  = paint(CATALOG.ws);
+  $('#cat-cs').innerHTML  = paint(CATALOG.cs);
 }
 
 function bind(){
@@ -255,6 +321,7 @@ function bind(){
 }
 
 render();
+renderCatalog();
 </script>
 </body>
 </html>
